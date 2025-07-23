@@ -1,3 +1,4 @@
+import './StudentPortal.css';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -5,7 +6,7 @@ import { LogIn, UserPlus, ArrowLeft, BookOpen, Users } from "lucide-react";
 
 const StudentPortal = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary">
+    <div className="student-portal-hero min-h-screen bg-gradient-to-br to-secondary">
       <div className="container mx-auto px-4 py-12">
         {/* Back Button */}
         <div className="mb-8">

@@ -1,3 +1,4 @@
+import "./StudentLogin.css";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,13 +47,13 @@ const StudentLogin = () => {
     if (validateForm()) {
       toast({
         title: "Login Successful!",
-        description: "Welcome back to the student dashboard - SMS",
+        description: "Welcome back to the student's dashboard",
       });
 
-      setFormData ({
+      setFormData({
         email: "",
         password: "",
-      })
+      });
       // Handle login logic here
     }
   };
@@ -66,7 +67,7 @@ const StudentLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary flex items-center justify-center p-4">
+    <div className="student-login-hero min-h-screen bg-gradient-to-br to-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
         <div className="mb-6">

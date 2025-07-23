@@ -1,10 +1,26 @@
+import "./StudentRegister.css";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardHeader, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, User, Mail, Lock, Phone, Calendar, Eye, EyeOff } from "lucide-react";
+import {
+  ArrowLeft,
+  User,
+  Mail,
+  Lock,
+  Phone,
+  Calendar,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const StudentRegister = () => {
@@ -15,7 +31,7 @@ const StudentRegister = () => {
     phone: "",
     dateOfBirth: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -24,45 +40,46 @@ const StudentRegister = () => {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.firstName.trim()) {
       newErrors.firstName = "First name is required";
     }
-    
+
     if (!formData.lastName.trim()) {
       newErrors.lastName = "Last name is required";
     }
-    
+
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    
+
     if (!formData.phone) {
       newErrors.phone = "Phone number is required";
     } else if (!/^\+?[\d\s-()]+$/.test(formData.phone)) {
       newErrors.phone = "Please enter a valid phone number";
     }
-    
+
     if (!formData.dateOfBirth) {
       newErrors.dateOfBirth = "Date of birth is required";
     }
-    
+
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 8) {
       newErrors.password = "Password must be at least 8 characters";
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = "Password must contain uppercase, lowercase and number";
+      newErrors.password =
+        "Password must contain uppercase, lowercase and number";
     }
-    
+
     if (!formData.confirmPassword) {
       newErrors.confirmPassword = "Please confirm your password";
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -72,7 +89,18 @@ const StudentRegister = () => {
     if (validateForm()) {
       toast({
         title: "Registration Successful!",
-        description: "Welcome to EduLearn Platform. Please check your email to verify your account.",
+        description:
+          "Congrats! You have successfully created a student account.",
+      });
+
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        dateOfBirth: "",
+        password: "",
+        confirmPassword: "",
       });
       // Handle registration logic here
     }
@@ -80,14 +108,14 @@ const StudentRegister = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary flex items-center justify-center p-4">
+    <div className="student-register-hero min-h-screen bg-gradient-to-br to-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
         <div className="mb-6">
@@ -101,7 +129,9 @@ const StudentRegister = () => {
 
         <Card className="shadow-elegant bg-card-gradient border-0">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Create Student Account</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Create Student Account
+            </CardTitle>
             <CardDescription>
               Join thousands of students and start your learning journey today
             </CardDescription>
@@ -122,7 +152,11 @@ const StudentRegister = () => {
                       className="pl-10"
                     />
                   </div>
-                  {errors.firstName && <p className="text-sm text-destructive">{errors.firstName}</p>}
+                  {errors.firstName && (
+                    <p className="text-sm text-destructive">
+                      {errors.firstName}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -138,7 +172,11 @@ const StudentRegister = () => {
                       className="pl-10"
                     />
                   </div>
-                  {errors.lastName && <p className="text-sm text-destructive">{errors.lastName}</p>}
+                  {errors.lastName && (
+                    <p className="text-sm text-destructive">
+                      {errors.lastName}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -156,7 +194,9 @@ const StudentRegister = () => {
                     className="pl-10"
                   />
                 </div>
-                {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -173,7 +213,9 @@ const StudentRegister = () => {
                     className="pl-10"
                   />
                 </div>
-                {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+                {errors.phone && (
+                  <p className="text-sm text-destructive">{errors.phone}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -189,7 +231,11 @@ const StudentRegister = () => {
                     className="pl-10"
                   />
                 </div>
-                {errors.dateOfBirth && <p className="text-sm text-destructive">{errors.dateOfBirth}</p>}
+                {errors.dateOfBirth && (
+                  <p className="text-sm text-destructive">
+                    {errors.dateOfBirth}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -210,10 +256,16 @@ const StudentRegister = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
-                {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -234,14 +286,22 @@ const StudentRegister = () => {
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                   >
-                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
-                {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword}</p>}
+                {errors.confirmPassword && (
+                  <p className="text-sm text-destructive">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 shadow-soft"
               >
                 Create Account
@@ -251,7 +311,10 @@ const StudentRegister = () => {
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <Link to="/student-login" className="text-primary hover:text-primary/80 font-medium">
+                <Link
+                  to="/student-login"
+                  className="text-primary hover:text-primary/80 font-medium"
+                >
                   Sign in here
                 </Link>
               </p>
