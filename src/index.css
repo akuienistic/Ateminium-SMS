@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -36,8 +37,16 @@
     --ring: 262 90% 50%;
 
     /* E-Learning specific design tokens */
-    --hero-gradient: linear-gradient(135deg, hsl(262 90% 50%), hsl(270 100% 70%));
-    --card-gradient: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14.3% 98%));
+    --hero-gradient: linear-gradient(
+      135deg,
+      hsl(262 90% 50%),
+      hsl(270 100% 70%)
+    );
+    --card-gradient: linear-gradient(
+      135deg,
+      hsl(0 0% 100%),
+      hsl(220 14.3% 98%)
+    );
     --shadow-elegant: 0 10px 30px -10px hsl(262 90% 50% / 0.3);
     --shadow-soft: 0 4px 20px -4px hsl(220 13% 91% / 0.5);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -92,8 +101,16 @@
     --ring: 262 90% 50%;
 
     /* Dark mode gradients and shadows */
-    --hero-gradient: linear-gradient(135deg, hsl(262 90% 50%), hsl(270 100% 70%));
-    --card-gradient: linear-gradient(135deg, hsl(240 10% 3.9%), hsl(240 3.7% 15.9%));
+    --hero-gradient: linear-gradient(
+      135deg,
+      hsl(262 90% 50%),
+      hsl(270 100% 70%)
+    );
+    --card-gradient: linear-gradient(
+      135deg,
+      hsl(240 10% 3.9%),
+      hsl(240 3.7% 15.9%)
+    );
     --shadow-elegant: 0 10px 30px -10px hsl(262 90% 50% / 0.4);
     --shadow-soft: 0 4px 20px -4px hsl(240 3.7% 15.9% / 0.5);
     --sidebar-background: 240 5.9% 10%;
@@ -105,6 +122,11 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+}
+
+body {
+  font-family: "montserrat", "segoe ui", "arial", sans-serif;
+  background-color: #141414;
 }
 
 @layer base {

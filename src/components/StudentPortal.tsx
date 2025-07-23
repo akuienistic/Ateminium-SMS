@@ -28,7 +28,7 @@ const StudentPortal = () => {
             Student Portal
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Welcome to your learning journey. Please login to access your courses or create a new account to get started.
+            Welcome to the Student Portal. Please login to access your management dashboard or create a new account to get started.
           </p>
         </div>
 
@@ -42,7 +42,7 @@ const StudentPortal = () => {
             </div>
             <h3 className="text-2xl font-semibold mb-4">Student Login</h3>
             <p className="text-muted-foreground mb-6">
-              Already have an account? Sign in to access your courses and continue learning.
+              Already have an account? Sign in to access your management dashboard, and view your results.
             </p>
             <Link to="/student-login">
               <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 shadow-soft">
@@ -59,7 +59,7 @@ const StudentPortal = () => {
             </div>
             <h3 className="text-2xl font-semibold mb-4">Create Account</h3>
             <p className="text-muted-foreground mb-6">
-              New to EduLearn? Register now and join thousands of students in their learning journey.
+              New to Ateminium - SMS? Register now and join thousands of students with secure data.
             </p>
             <Link to="/student-register">
               <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 shadow-soft">
@@ -67,40 +67,6 @@ const StudentPortal = () => {
               </Button>
             </Link>
           </Card>
-        </div>
-
-        {/* Benefits Section */}
-        <div className="mt-20">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose EduLearn?</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <BookOpen className="h-6 w-6 text-primary" />
-                </div>
-              </div>
-              <h4 className="font-semibold mb-2">Interactive Courses</h4>
-              <p className="text-muted-foreground text-sm">Engaging content with videos, quizzes, and hands-on projects</p>
-            </div>
-            <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <Users className="h-6 w-6 text-primary" />
-                </div>
-              </div>
-              <h4 className="font-semibold mb-2">Expert Instructors</h4>
-              <p className="text-muted-foreground text-sm">Learn from industry professionals and experienced educators</p>
-            </div>
-            <div className="text-center">
-              <div className="flex justify-center mb-4">
-                <div className="p-3 bg-primary/10 rounded-full">
-                  <LogIn className="h-6 w-6 text-primary" />
-                </div>
-              </div>
-              <h4 className="font-semibold mb-2">Flexible Learning</h4>
-              <p className="text-muted-foreground text-sm">Study at your own pace, anytime and anywhere</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

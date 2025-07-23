@@ -2,16 +2,21 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardHeader, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, LogIn, Mail, Lock, Eye, EyeOff, Shield } from "lucide-react";
+import { ArrowLeft, LogIn, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const AdminLogin = () => {
+const StudentLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    adminCode: ""
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -19,23 +24,19 @@ const AdminLogin = () => {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    
+
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-    
-    if (!formData.adminCode) {
-      newErrors.adminCode = "Admin authorization code is required";
-    }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -44,18 +45,22 @@ const AdminLogin = () => {
     e.preventDefault();
     if (validateForm()) {
       toast({
-        title: "Admin Login Successful!",
-        description: "Welcome to the admin dashboard",
+        title: "Login Successful!",
+        description: "Welcome back to Ateminium - SMS",
       });
-      // Handle admin login logic here
+      setFormData({
+        email: "",
+        password: "",
+      });
+      // Handle login logic here
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -74,18 +79,17 @@ const AdminLogin = () => {
 
         <Card className="shadow-elegant bg-card-gradient border-0">
           <CardHeader className="text-center">
-            <div className="flex justify-center mb-4">
-              <Shield className="h-12 w-12 text-primary" />
-            </div>
-            <CardTitle className="text-2xl font-bold">Admin Access</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Teacher's Login Page
+            </CardTitle>
             <CardDescription>
-              Secure login platform for school administrators and moderators
+              Enter your credentials to access your management dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email">Admin Email</Label>
+                <Label htmlFor="email">Email Address</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -94,7 +98,7 @@ const AdminLogin = () => {
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="admin@edulearn.com"
+                    placeholder="teacher@example.com"
                     className="pl-10"
                   />
                 </div>
@@ -132,6 +136,7 @@ const AdminLogin = () => {
                   <p className="text-sm text-destructive">{errors.password}</p>
                 )}
               </div>
+
               <div className="flex items-center justify-between">
                 <Link
                   to="/forgot-password"
@@ -145,16 +150,9 @@ const AdminLogin = () => {
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 shadow-soft"
               >
-                Access Admin Panel <LogIn className="h-4 w-4" />
+                Sign In <LogIn className="h-4 w-4" />
               </Button>
             </form>
-
-            <div className="mt-6 p-4 bg-muted/30 rounded-lg">
-              <p className="text-xs text-muted-foreground text-center">
-                This is a delicate area. Do <b>NOT</b> grant access to anyone, unless they are authorized by the
-                school admin.
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>
@@ -162,4 +160,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default StudentLogin;
