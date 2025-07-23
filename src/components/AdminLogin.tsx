@@ -2,16 +2,29 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardHeader, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, LogIn, Mail, Lock, Eye, EyeOff, Shield } from "lucide-react";
+import {
+  ArrowLeft,
+  LogIn,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  Shield,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    adminCode: ""
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -19,23 +32,19 @@ const AdminLogin = () => {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    
+
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-    
+
     if (!formData.password) {
       newErrors.password = "Password is required";
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-    
-    if (!formData.adminCode) {
-      newErrors.adminCode = "Admin authorization code is required";
-    }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -49,13 +58,20 @@ const AdminLogin = () => {
       });
       // Handle admin login logic here
     }
+
+    // Reset form data and errors
+    setFormData({
+      email: "",
+      password: "",
+    });
+    setErrors({});
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -94,7 +110,7 @@ const AdminLogin = () => {
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="admin@edulearn.com"
+                    placeholder="admin@example.com"
                     className="pl-10"
                   />
                 </div>
@@ -151,8 +167,8 @@ const AdminLogin = () => {
 
             <div className="mt-6 p-4 bg-muted/30 rounded-lg">
               <p className="text-xs text-muted-foreground text-center">
-                This is a delicate area. Do <b>NOT</b> grant access to anyone, unless they are authorized by the
-                school admin.
+                This is a delicate area. Do <b>NOT</b> grant access to anyone,
+                unless they are authorized by the school admin.
               </p>
             </div>
           </CardContent>

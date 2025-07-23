@@ -46,8 +46,13 @@ const StudentLogin = () => {
     if (validateForm()) {
       toast({
         title: "Login Successful!",
-        description: "Welcome back to EduLearn Platform",
+        description: "Welcome back to the student dashboard - SMS",
       });
+
+      setFormData ({
+        email: "",
+        password: "",
+      })
       // Handle login logic here
     }
   };
