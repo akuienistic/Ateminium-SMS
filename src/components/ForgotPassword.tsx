@@ -11,13 +11,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, Send } from "lucide-react";
+import { ArrowLeft, Mail, Send, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+  });
   const { toast } = useToast();
 
   const validateEmail = (email: string) => {
@@ -41,8 +44,18 @@ const ForgotPassword = () => {
     setIsSubmitted(true);
 
     toast({
-      title: "Reset Link Sent!",
-      description: "Check your email for password reset instructions",
+      title: (
+        <div className="flex items-center gap-2">
+          <CheckCircle2 className="h-5 w-5 text-green-500" />
+          <span>Password Reset Email Sent</span>
+        </div>
+      ),
+      duration: 5000,
+      description: "Check your email inbox for password reset instructions",
+    });
+
+    setFormData({
+      email: "",
     });
   };
 
@@ -55,7 +68,7 @@ const ForgotPassword = () => {
 
   if (isSubmitted) {
     return (
-      <div className="forgot-password-hero min-h-screen bg-gradient-to-br to-secondary flex items-center justify-center p-4">
+      <div className="forgot-password-hero min-h-screen flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="mb-6">
             <Link to="/">
@@ -94,7 +107,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary flex items-center justify-center p-4">
+    <div className="forgot-password-hero min-h-screen bg-gradient-to-br to-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
         <div className="mb-6">
