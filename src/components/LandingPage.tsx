@@ -37,7 +37,7 @@ const LandingPage = () => {
           <h1 className="text-5xl md:text-6xl max-w-2l font-bold bg-hero-gradient bg-clip-text text-transparent mb-2 firstH1">
             Ateminium School Management System
           </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mt-0 mb-6 text-white">
+          <p className="slogan text-xl text-muted-foreground max-w-2xl mx-auto mt-0 mb-6 text-white">
             "Your reliable stewards of delicate data"
           </p>
           <p className="hero-desc text-xl text-muted-foreground opacity-90 max-w-2xl mx-auto mb-12">
