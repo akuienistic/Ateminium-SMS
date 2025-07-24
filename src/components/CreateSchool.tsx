@@ -1,4 +1,4 @@
-import './CreateSchool.css';
+import "./CreateSchool.css";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +19,6 @@ import {
   Mail,
   Phone,
   MapPin,
-  Globe,
   Users,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -27,16 +26,17 @@ import { useToast } from "@/hooks/use-toast";
 const CreateSchool = () => {
   const [formData, setFormData] = useState({
     schoolName: "",
-    adminFirstName: "",
-    adminLastName: "",
+    adminFullName: "",
     adminEmail: "",
     adminPhone: "",
+    schoolEmail: "",
+    schoolPhone: "",
     schoolAddress: "",
     city: "",
     state: "",
     zipCode: "",
     country: "",
-    website: "",
+    expectedTeachers: "",
     expectedStudents: "",
     description: "",
   });
@@ -46,28 +46,43 @@ const CreateSchool = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
+    // School Information Validation
     if (!formData.schoolName.trim()) {
       newErrors.schoolName = "School name is required";
     }
 
-    if (!formData.adminFirstName.trim()) {
-      newErrors.adminFirstName = "Admin first name is required";
+    if (!formData.schoolEmail) {
+      newErrors.schoolEmail = "School email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.schoolEmail)) {
+      newErrors.schoolEmail = "Please enter a valid school email address";
     }
 
-    if (!formData.adminLastName.trim()) {
-      newErrors.adminLastName = "Admin last name is required";
+    if (!formData.schoolPhone) {
+      newErrors.schoolPhone = "School phone number is required";
+    } else if (!/^(\+\d{1,3})?\d{10}$/.test(formData.schoolPhone)) {
+      newErrors.schoolPhone = "Phone must be 10 digits or 13 with country code";
+    }
+
+    // Admin Information Validation
+    if (!formData.adminFullName.trim()) {
+      newErrors.adminFullName = "Admin full name is required";
+    } else if (formData.adminFullName.trim().split(/\s+/).length < 3) {
+      newErrors.adminFullName = "Please enter at least 3 names";
     }
 
     if (!formData.adminEmail) {
       newErrors.adminEmail = "Admin email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.adminEmail)) {
-      newErrors.adminEmail = "Please enter a valid email address";
+      newErrors.adminEmail = "Please enter a valid admin email address";
     }
 
     if (!formData.adminPhone) {
-      newErrors.adminPhone = "Phone number is required";
+      newErrors.adminPhone = "Admin phone number is required";
+    } else if (!/^(\+\d{1,3})?\d{10}$/.test(formData.adminPhone)) {
+      newErrors.adminPhone = "Phone must be 10 digits or 13 with country code";
     }
 
+    // Location Information Validation
     if (!formData.schoolAddress.trim()) {
       newErrors.schoolAddress = "School address is required";
     }
@@ -128,8 +143,7 @@ const CreateSchool = () => {
               Create School Account
             </CardTitle>
             <CardDescription>
-              Register your educational institution and join the EduLearn
-              platform
+              Register your educational institution and join the platform
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -141,7 +155,9 @@ const CreateSchool = () => {
                 </h3>
 
                 <div className="space-y-2">
-                  <Label htmlFor="schoolName">School Name *</Label>
+                  <Label htmlFor="schoolName">
+                    School Name <span className="asterisks">*</span>
+                  </Label>
                   <div className="relative">
                     <Building2 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -160,14 +176,64 @@ const CreateSchool = () => {
                   )}
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="schoolEmail">
+                      School Email <span className="asterisks">*</span>
+                    </Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="schoolEmail"
+                        name="schoolEmail"
+                        type="email"
+                        value={formData.schoolEmail}
+                        onChange={handleInputChange}
+                        placeholder="school@example.com"
+                        className="pl-10"
+                      />
+                    </div>
+                    {errors.schoolEmail && (
+                      <p className="text-sm text-destructive">
+                        {errors.schoolEmail}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="schoolPhone">
+                      School Phone <span className="asterisks">*</span>
+                    </Label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        id="schoolPhone"
+                        name="schoolPhone"
+                        type="tel"
+                        value={formData.schoolPhone}
+                        onChange={handleInputChange}
+                        placeholder="+211 9xxxxxxxxx"
+                        className="pl-10"
+                      />
+                    </div>
+                    {errors.schoolPhone && (
+                      <p className="text-sm text-destructive">
+                        {errors.schoolPhone}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="description">School Description</Label>
+                  <Label htmlFor="description">
+                    School Description <span className="asterisks">*</span>
+                  </Label>
                   <Textarea
                     id="description"
                     name="description"
                     value={formData.description}
                     onChange={handleInputChange}
-                    placeholder="Brief description of your school"
+                    placeholder="Describe your school in a few words..."
                     rows={3}
                   />
                 </div>
@@ -179,51 +245,33 @@ const CreateSchool = () => {
                   Administrator Information
                 </h3>
 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="adminFirstName">First Name *</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="adminFirstName"
-                        name="adminFirstName"
-                        value={formData.adminFirstName}
-                        onChange={handleInputChange}
-                        placeholder="John"
-                        className="pl-10"
-                      />
-                    </div>
-                    {errors.adminFirstName && (
-                      <p className="text-sm text-destructive">
-                        {errors.adminFirstName}
-                      </p>
-                    )}
+                <div className="space-y-2">
+                  <Label htmlFor="adminFullName">
+                    Full Name <span className="asterisks">*</span>
+                  </Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="adminFullName"
+                      name="adminFullName"
+                      value={formData.adminFullName}
+                      onChange={handleInputChange}
+                      placeholder="John Michael Smith"
+                      className="pl-10"
+                    />
                   </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="adminLastName">Last Name *</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        id="adminLastName"
-                        name="adminLastName"
-                        value={formData.adminLastName}
-                        onChange={handleInputChange}
-                        placeholder="Doe"
-                        className="pl-10"
-                      />
-                    </div>
-                    {errors.adminLastName && (
-                      <p className="text-sm text-destructive">
-                        {errors.adminLastName}
-                      </p>
-                    )}
-                  </div>
+                  {errors.adminFullName && (
+                    <p className="text-sm text-destructive">
+                      {errors.adminFullName}
+                    </p>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="adminEmail">Email Address *</Label>
+                    <Label htmlFor="adminEmail">
+                      Email Address <span className="asterisks">*</span>
+                    </Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -232,7 +280,7 @@ const CreateSchool = () => {
                         type="email"
                         value={formData.adminEmail}
                         onChange={handleInputChange}
-                        placeholder="admin@school.edu"
+                        placeholder="admin@example.com"
                         className="pl-10"
                       />
                     </div>
@@ -244,7 +292,9 @@ const CreateSchool = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="adminPhone">Phone Number *</Label>
+                    <Label htmlFor="adminPhone">
+                      Phone Number <span className="asterisks">*</span>
+                    </Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -253,7 +303,7 @@ const CreateSchool = () => {
                         type="tel"
                         value={formData.adminPhone}
                         onChange={handleInputChange}
-                        placeholder="+1 (555) 123-4567"
+                        placeholder="+211 9xxxxxxxxx"
                         className="pl-10"
                       />
                     </div>
@@ -273,7 +323,9 @@ const CreateSchool = () => {
                 </h3>
 
                 <div className="space-y-2">
-                  <Label htmlFor="schoolAddress">School Address *</Label>
+                  <Label htmlFor="schoolAddress">
+                    School Address <span className="asterisks">*</span>
+                  </Label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
@@ -281,7 +333,7 @@ const CreateSchool = () => {
                       name="schoolAddress"
                       value={formData.schoolAddress}
                       onChange={handleInputChange}
-                      placeholder="123 Education Street"
+                      placeholder="123 Wherever Street"
                       className="pl-10"
                     />
                   </div>
@@ -308,7 +360,9 @@ const CreateSchool = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="state">State/Province</Label>
+                    <Label htmlFor="state">
+                      State/Province <span className="asterisks">*</span>
+                    </Label>
                     <Input
                       id="state"
                       name="state"
@@ -321,18 +375,22 @@ const CreateSchool = () => {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="zipCode">ZIP/Postal Code</Label>
+                    <Label htmlFor="zipCode">
+                      ZIP/Postal Code <span className="asterisks">*</span>
+                    </Label>
                     <Input
                       id="zipCode"
                       name="zipCode"
                       value={formData.zipCode}
                       onChange={handleInputChange}
-                      placeholder="10001"
+                      placeholder="1000"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="country">Country *</Label>
+                    <Label htmlFor="country">
+                      Country <span className="asterisks">*</span>
+                    </Label>
                     <Input
                       id="country"
                       name="country"
@@ -357,16 +415,19 @@ const CreateSchool = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="website">School Website</Label>
+                    <Label htmlFor="expectedTeachers">
+                      Expected Number of Teachers{" "}
+                      <span className="asterisks">*</span>
+                    </Label>
                     <div className="relative">
-                      <Globe className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
-                        id="website"
-                        name="website"
-                        type="url"
-                        value={formData.website}
+                        id="expectedTeachers"
+                        name="expectedTeachers"
+                        type="number"
+                        value={formData.expectedTeachers}
                         onChange={handleInputChange}
-                        placeholder="https://www.school.edu"
+                        placeholder="50"
                         className="pl-10"
                       />
                     </div>
@@ -374,7 +435,8 @@ const CreateSchool = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="expectedStudents">
-                      Expected Number of Students
+                      Expected Number of Students{" "}
+                      <span className="asterisks">*</span>
                     </Label>
                     <div className="relative">
                       <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />

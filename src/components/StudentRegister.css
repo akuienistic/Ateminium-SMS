@@ -2,3 +2,12 @@
   background-color: #141414 !important;
   font-family: "montserrat", "segoe ui", "arial", sans-serif !important;
 }
+
+.pl-10:focus::placeholder {
+  color: transparent !important;
+  transition: all 0.3s ease;
+}
+
+.asterisks {
+  color: #ff0000 !important;
+}

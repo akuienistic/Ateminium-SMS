@@ -1,8 +1,15 @@
+import "./ForgotPassword.css";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardHeader, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Mail, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -19,12 +26,12 @@ const ForgotPassword = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       setError("Email address is required");
       return;
     }
-    
+
     if (!validateEmail(email)) {
       setError("Please enter a valid email address");
       return;
@@ -32,7 +39,7 @@ const ForgotPassword = () => {
 
     setError("");
     setIsSubmitted(true);
-    
+
     toast({
       title: "Reset Link Sent!",
       description: "Check your email for password reset instructions",
@@ -48,7 +55,7 @@ const ForgotPassword = () => {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background to-secondary flex items-center justify-center p-4">
+      <div className="forgot-password-hero min-h-screen bg-gradient-to-br to-secondary flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="mb-6">
             <Link to="/">
@@ -72,20 +79,11 @@ const ForgotPassword = () => {
               </p>
               <p className="font-medium text-primary mb-8">{email}</p>
               <p className="text-sm text-muted-foreground mb-8">
-                Didn't receive the email? Check your spam folder or try again with a different email address.
+                Didn't receive the email? Check your spam folder or try again .
               </p>
               <div className="space-y-3">
-                <Button 
-                  onClick={() => setIsSubmitted(false)}
-                  variant="outline" 
-                  className="w-full"
-                >
-                  Try Different Email
-                </Button>
                 <Link to="/student-login">
-                  <Button className="w-full">
-                    Back to Login
-                  </Button>
+                  <Button className="w-full">Back to Login</Button>
                 </Link>
               </div>
             </CardContent>
@@ -110,9 +108,12 @@ const ForgotPassword = () => {
 
         <Card className="shadow-elegant bg-card-gradient border-0">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Reset Your Password</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Reset Your Password
+            </CardTitle>
             <CardDescription>
-              Enter your email address and we'll send you a link to reset your password
+              Enter your email address and we'll send you a link to reset your
+              password
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -134,27 +135,13 @@ const ForgotPassword = () => {
                 {error && <p className="text-sm text-destructive">{error}</p>}
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 shadow-soft"
               >
                 Send Reset Link
               </Button>
             </form>
-
-            <div className="mt-6 text-center">
-              <p className="text-sm text-muted-foreground mb-4">
-                Remember your password?
-              </p>
-              <div className="space-y-2">
-                <Link to="/student-login" className="block text-primary hover:text-primary/80 font-medium">
-                  Student Login
-                </Link>
-                <Link to="/admin-login" className="block text-primary hover:text-primary/80 font-medium">
-                  Admin Login
-                </Link>
-              </div>
-            </div>
           </CardContent>
         </Card>
       </div>

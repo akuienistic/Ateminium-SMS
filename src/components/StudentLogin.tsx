@@ -81,7 +81,9 @@ const StudentLogin = () => {
 
         <Card className="shadow-elegant bg-card-gradient border-0">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Student Login</CardTitle>
+            <CardTitle className="text-2xl font-bold">
+              Student's Login Page
+            </CardTitle>
             <CardDescription>
               Enter your credentials to access your learning dashboard
             </CardDescription>

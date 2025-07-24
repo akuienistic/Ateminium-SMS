@@ -17,19 +17,18 @@ import {
   Mail,
   Lock,
   Phone,
-  Calendar,
   Eye,
   EyeOff,
+  BookOpen,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const StudentRegister = () => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
     phone: "",
-    dateOfBirth: "",
+    schoolId: "",
     password: "",
     confirmPassword: "",
   });
@@ -41,12 +40,10 @@ const StudentRegister = () => {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = "First name is required";
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = "Last name is required";
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    } else if (formData.fullName.trim().split(/\s+/).length < 3) {
+      newErrors.fullName = "Please enter at least 3 names";
     }
 
     if (!formData.email) {
@@ -57,12 +54,15 @@ const StudentRegister = () => {
 
     if (!formData.phone) {
       newErrors.phone = "Phone number is required";
-    } else if (!/^\+?[\d\s-()]+$/.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid phone number";
+    } else if (!/^(\+\d{1,3})?\d{10}$/.test(formData.phone)) {
+      newErrors.phone = "Phone must be 10 digits or 13 with country code";
     }
 
-    if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = "Date of birth is required";
+    if (!formData.schoolId) {
+      newErrors.schoolId = "School ID is a <strong>MUST</strong>";
+    } else if (!/^[a-z0-9-]{6,30}$/.test(formData.schoolId)) {
+      newErrors.schoolId =
+        "School ID must be characters containing (a-z, 0-9, and - only)";
     }
 
     if (!formData.password) {
@@ -94,11 +94,10 @@ const StudentRegister = () => {
       });
 
       setFormData({
-        firstName: "",
-        lastName: "",
+        fullName: "",
         email: "",
         phone: "",
-        dateOfBirth: "",
+        schoolId: "",
         password: "",
         confirmPassword: "",
       });
@@ -138,50 +137,30 @@ const StudentRegister = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="firstName"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      placeholder="John"
-                      className="pl-10"
-                    />
-                  </div>
-                  {errors.firstName && (
-                    <p className="text-sm text-destructive">
-                      {errors.firstName}
-                    </p>
-                  )}
+              <div className="space-y-2">
+                <Label htmlFor="fullName">
+                  Full Name <span className="asterisks">*</span>
+                </Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="fullName"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    placeholder="John Michael Doe"
+                    className="pl-10"
+                  />
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="lastName"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      placeholder="Doe"
-                      className="pl-10"
-                    />
-                  </div>
-                  {errors.lastName && (
-                    <p className="text-sm text-destructive">
-                      {errors.lastName}
-                    </p>
-                  )}
-                </div>
+                {errors.fullName && (
+                  <p className="text-sm text-destructive">{errors.fullName}</p>
+                )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">
+                  Email Address <span className="asterisks">*</span>
+                </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -190,7 +169,7 @@ const StudentRegister = () => {
                     type="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="john.doe@example.com"
+                    placeholder="student@example.com"
                     className="pl-10"
                   />
                 </div>
@@ -200,7 +179,9 @@ const StudentRegister = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="phone">
+                  Phone Number <span className="asterisks">*</span>
+                </Label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -209,7 +190,7 @@ const StudentRegister = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="+211 9XXXXXXXX"
                     className="pl-10"
                   />
                 </div>
@@ -219,27 +200,29 @@ const StudentRegister = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="dateOfBirth">Date of Birth</Label>
+                <Label htmlFor="schoolId">
+                  School ID <span className="asterisks">*</span>
+                </Label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <BookOpen className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
-                    id="dateOfBirth"
-                    name="dateOfBirth"
-                    type="date"
-                    value={formData.dateOfBirth}
+                    id="schoolId"
+                    name="schoolId"
+                    value={formData.schoolId}
                     onChange={handleInputChange}
+                    placeholder="e.g promisedland-ss-001"
                     className="pl-10"
                   />
                 </div>
-                {errors.dateOfBirth && (
-                  <p className="text-sm text-destructive">
-                    {errors.dateOfBirth}
-                  </p>
+                {errors.schoolId && (
+                  <p className="text-sm text-destructive">{errors.schoolId}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">
+                  Password <span className="asterisks">*</span>
+                </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -269,7 +252,9 @@ const StudentRegister = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">
+                  Confirm Password <span className="asterisks">*</span>
+                </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
