@@ -34,7 +34,7 @@ const LandingPage = () => {
       <div className="container mx-auto px-2 pt-5">
         <div className="text-center mb-16" data-aos="fade-up">
           <div className="flex justify-center mb-3"></div>
-          <h1 className="text-5xl md:text-6xl max-w-2l font-bold bg-hero-gradient bg-clip-text text-transparent mb-2 firstH1">
+          <h1 className="text-5xl md:text-6xl max-w-2xl font-bold bg-hero-gradient bg-clip-text text-transparent mb-2 firstH1">
             Ateminium School Management System
           </h1>
           <p className="slogan text-xl text-muted-foreground max-w-2xl mx-auto mt-0 mb-6 text-white">
