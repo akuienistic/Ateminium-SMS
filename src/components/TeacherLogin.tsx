@@ -1,5 +1,5 @@
 import "./TeacherLogin.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +21,8 @@ import {
   EyeOff,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const TeacherLogin = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +32,15 @@ const TeacherLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
+
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-in-out",
+      once: false,
+    });
+  }, []);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -83,7 +94,7 @@ const TeacherLogin = () => {
     <div className="teacher-login-hero min-h-screen bg-gradient-to-br to-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
-        <div className="mb-6">
+        <div className="mb-6" data-aos="fade-right">
           <Link to="/">
             <Button variant="outline" className="flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
@@ -92,18 +103,30 @@ const TeacherLogin = () => {
           </Link>
         </div>
 
-        <Card className="shadow-elegant bg-card-gradient border-0">
+        <Card
+          className="shadow-elegant bg-card-gradient border-0"
+          data-aos="zoom-in"
+          data-aos-delay="100"
+        >
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">
+            <CardTitle
+              className="text-2xl font-bold"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
               Teacher's Login Page
             </CardTitle>
-            <CardDescription>
+            <CardDescription data-aos="fade-up" data-aos-delay="300">
               Enter your credentials to access your management dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
+              <div
+                className="space-y-2"
+                data-aos="fade-up"
+                data-aos-delay="400"
+              >
                 <Label htmlFor="email">Email Address</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -122,7 +145,11 @@ const TeacherLogin = () => {
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div
+                className="space-y-2"
+                data-aos="fade-up"
+                data-aos-delay="500"
+              >
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -152,7 +179,11 @@ const TeacherLogin = () => {
                 )}
               </div>
 
-              <div className="flex items-center justify-between">
+              <div
+                className="flex items-center justify-between"
+                data-aos="fade-zoom-in"
+                data-aos-delay="200"
+              >
                 <Link
                   to="/forgot-password"
                   className="text-sm text-primary hover:text-primary/80 transition-colors"
