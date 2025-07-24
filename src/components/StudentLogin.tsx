@@ -11,7 +11,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowLeft, LogIn, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  LogIn,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const StudentLogin = () => {
@@ -46,8 +54,14 @@ const StudentLogin = () => {
     e.preventDefault();
     if (validateForm()) {
       toast({
-        title: "Login Successful!",
-        description: "Welcome back to the student's dashboard",
+        title: (
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+            <span>Login Successful!</span>
+          </div>
+        ),
+        duration: 3000,
+        description: "Welcome to the student's dashboard",
       });
 
       setFormData({

@@ -20,6 +20,10 @@ import {
   Phone,
   MapPin,
   Users,
+  CheckCircle2,
+  Lock,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -29,6 +33,8 @@ const CreateSchool = () => {
     adminFullName: "",
     adminEmail: "",
     adminPhone: "",
+    password: "",
+    confirmPassword: "",
     schoolEmail: "",
     schoolPhone: "",
     schoolAddress: "",
@@ -41,6 +47,10 @@ const CreateSchool = () => {
     description: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPasswordMatchError, setShowPasswordMatchError] = useState(false);
+  const [showPasswordLengthError, setShowPasswordLengthError] = useState(false);
   const { toast } = useToast();
 
   const validateForm = () => {
@@ -82,6 +92,21 @@ const CreateSchool = () => {
       newErrors.adminPhone = "Phone must be 10 digits or 13 with country code";
     }
 
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      newErrors.password =
+        "Password must contain uppercase, lowercase and number";
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+
     // Location Information Validation
     if (!formData.schoolAddress.trim()) {
       newErrors.schoolAddress = "School address is required";
@@ -103,9 +128,34 @@ const CreateSchool = () => {
     e.preventDefault();
     if (validateForm()) {
       toast({
-        title: "School Registration Successful!",
+        title: (
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+            <span>School Registration Successful!</span>
+          </div>
+        ),
+        duration: 5000,
         description:
-          "Your school account has been created. You'll receive setup instructions via email.",
+          "Thank you for registering. Your school will be approved soon.",
+      });
+
+      setFormData({
+        schoolName: "",
+        adminFullName: "",
+        adminEmail: "",
+        adminPhone: "",
+        password: "",
+        confirmPassword: "",
+        schoolEmail: "",
+        schoolPhone: "",
+        schoolAddress: "",
+        city: "",
+        state: "",
+        zipCode: "",
+        country: "",
+        expectedTeachers: "",
+        expectedStudents: "",
+        description: "",
       });
       // Handle school registration logic here
     }
@@ -122,8 +172,8 @@ const CreateSchool = () => {
   };
 
   return (
-    <div className="create-school-hero min-h-screen bg-gradient-to-br to-secondary p-4">
-      <div className="container mx-auto max-w-2xl">
+    <div className="create-school-hero min-h-screen bg-gradient-to-br to-secondary flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
         {/* Back Button */}
         <div className="mb-6">
           <Link to="/">
@@ -313,6 +363,75 @@ const CreateSchool = () => {
                       </p>
                     )}
                   </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">
+                    Password <span className="asterisks">*</span>
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="Create a strong password"
+                      className="pl-10 pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {errors.password && (
+                    <p className="text-sm text-destructive">
+                      {errors.password}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword">
+                    Confirm Password <span className="asterisks">*</span>
+                  </Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
+                      placeholder="Confirm your password"
+                      className="pl-10 pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                      className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  {errors.confirmPassword && (
+                    <p className="text-sm text-destructive">
+                      {errors.confirmPassword}
+                    </p>
+                  )}
                 </div>
               </div>
 

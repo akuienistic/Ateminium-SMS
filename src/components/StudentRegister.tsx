@@ -20,6 +20,7 @@ import {
   Eye,
   EyeOff,
   BookOpen,
+  CheckCircle2,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -59,7 +60,7 @@ const StudentRegister = () => {
     }
 
     if (!formData.schoolId) {
-      newErrors.schoolId = "School ID is a <strong>MUST</strong>";
+      newErrors.schoolId = "School ID is a MUST.";
     } else if (!/^[a-z0-9-]{6,30}$/.test(formData.schoolId)) {
       newErrors.schoolId =
         "School ID must be characters containing (a-z, 0-9, and - only)";
@@ -88,9 +89,14 @@ const StudentRegister = () => {
     e.preventDefault();
     if (validateForm()) {
       toast({
-        title: "Registration Successful!",
-        description:
-          "Congrats! You have successfully created a student account.",
+        title: (
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+            <span>Registration Successful!</span>
+          </div>
+        ),
+        duration: 5000,
+        description: "Congratulations, you've successfully registered!!",
       });
 
       setFormData({

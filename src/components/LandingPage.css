@@ -12,3 +12,32 @@
   background-color: #141414;
   font-family: "montserrat", "segoe ui", "arial", sans-serif;
 }
+
+.why-us-desc {
+  line-height: 2;
+}
+
+@media screen and (max-width: 768px) {
+  .firstH1 {
+    font-size: 3rem !important;
+  }
+
+  .teacher-portal-button {
+    padding: 1.8rem 2rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  .action-cards {
+    margin: 0 1rem !important;
+  }
+
+  .why-us-desc {
+    font-size: 1rem !important;
+    padding: 0 1rem;
+    line-height: 2 !important;
+  }
+
+  .landing-footer {
+    font-size: 0.9rem !important;
+  }
+}

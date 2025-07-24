@@ -19,6 +19,8 @@ import {
   Eye,
   EyeOff,
   Shield,
+  Loader2,
+  CheckCircle2, // Added CheckCircle2 icon
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -29,48 +31,86 @@ const AdminLogin = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
+    let isValid = true;
 
     if (!formData.email) {
       newErrors.email = "Email is required";
+      isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
+      isValid = false;
     }
 
     if (!formData.password) {
       newErrors.password = "Password is required";
+      isValid = false;
     } else if (formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
+      isValid = false;
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return isValid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
+
+    // Validate form before submission
+    if (!validateForm()) {
       toast({
-        title: "Admin Login Successful!",
-        description: "Welcome to the admin dashboard",
+        title: "Validation Error",
+        description: "Please fill in all required fields correctly",
+        variant: "destructive",
+        duration: 3000,
       });
-      // Handle admin login logic here
+      return;
     }
 
-    // Reset form data and errors
-    setFormData({
-      email: "",
-      password: "",
-    });
-    setErrors({});
+    setIsSubmitting(true);
+
+    try {
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      toast({
+        title: (
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-green-500" />
+            <span>Admin Login Successful!</span>
+          </div>
+        ),
+        description: "Welcome to the admin dashboard",
+        duration: 3000,
+      });
+
+      // Handle successful login logic here
+      // Reset form after successful login
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: "Invalid email or password",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -102,7 +142,7 @@ const AdminLogin = () => {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email">Admin Email</Label>
+                <Label htmlFor="email">Admin Email *</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -121,7 +161,7 @@ const AdminLogin = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Password *</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -161,8 +201,18 @@ const AdminLogin = () => {
               <Button
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 shadow-soft"
+                disabled={isSubmitting}
               >
-                Access Admin Panel <LogIn className="h-4 w-4" />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Authenticating...
+                  </>
+                ) : (
+                  <>
+                    Access Admin Panel <LogIn className="h-4 w-4 ml-2" />
+                  </>
+                )}
               </Button>
             </form>
 
